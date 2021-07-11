@@ -1,0 +1,23 @@
+{% extends 'shared/base.html'%}
+
+{% block content %}
+    <div class="container">
+        <h1 class='text-center'>All homeworks</h1>
+        <div class="row">
+            {% for homework in homeworks %}
+                <div class="col-lg-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ pet.image.url }}" class="card-img-top" alt="{{ pet.description }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ homework.title }}, Score: {{ homework.score }}</h5>
+                            <p class="card-text">{{ homework.status }}</p>
+                            <p class="card-text">{{ homework.student }}</p>
+                            <p class="card-text">{{ homework.teacher }}</p>
+                            <a href="{% url 'homework_details' homework.id %}" class="btn btn-primary">See details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
