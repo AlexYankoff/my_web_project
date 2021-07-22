@@ -1,10 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from my_web_project.common.forms import CommentForm
+from my_web_project.core.decorators import group_required
 from my_web_project.main.forms import HomeworkForm, HomeworkEditForm
 from my_web_project.main.models import Homework
 
-
+#@login_required()
 def homeworks_list(request):
     homeworks = Homework.objects.all()
     context = {
@@ -14,6 +16,7 @@ def homeworks_list(request):
     return render(request, 'homework/homeworks_list.html', context)
 
 
+@group_required(['Student',])
 def homework_create(request):
     if request.method == 'POST':
         form = HomeworkForm(request.POST, request.FILES)
@@ -63,6 +66,7 @@ def homework_edit(request, pk):
 
     return render(request, 'homework/homework_edit.html', context)
 
+
 def homework_delete(request, pk):
     homework = Homework.objects.get(pk=pk)
     if request.method == 'POST':
@@ -73,6 +77,7 @@ def homework_delete(request, pk):
             'homework': homework,
         }
         return render(request, 'homework/homework_delete.html', context)
+
 
 def homework_comment(request, pk):
     form = CommentForm(request.POST)

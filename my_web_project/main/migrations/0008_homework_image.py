@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homework',
             name='image',
-            field=models.ImageField(default='', upload_to='pets'),
+            field=models.ImageField(default='', upload_to='homeworks'),
             preserve_default=False,
         ),
     ]

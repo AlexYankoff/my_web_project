@@ -1,10 +1,27 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    school_class = models.CharField(max_length=3)
+    first_name = models.CharField(
+        max_length=20,
+        blank= True,)
+    last_name = models.CharField(
+        max_length=20,
+        blank= True,)
+    school_class = models.CharField(
+        max_length=3,
+        blank= True)
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key= True, #user го правим на primary_key
+        )
+
+    is_complete = models.BooleanField(
+        default=False,
+    )
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.school_class}'
@@ -32,7 +49,7 @@ class Homework(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to = 'pets',
+        upload_to = 'homeworks',
     )
     score = models.FloatField(blank=True,null=True)
     status = models.CharField(

@@ -1,0 +1,14 @@
+{% extends 'shared/base.html' %}
+
+
+{% block content %}
+    <div class="form">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+
+            <button>Register Student</button>
+        </form>
+    </div>
+
+{% endblock %}

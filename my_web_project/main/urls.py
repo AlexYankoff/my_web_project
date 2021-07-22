@@ -1,4 +1,5 @@
 from django.urls import path
+import my_web_project.main.signals
 
 from my_web_project.main.views import homeworks_list, homework_create, homework_details, homework_edit, homework_delete, \
     homework_comment
