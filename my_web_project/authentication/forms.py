@@ -6,24 +6,17 @@ from django.core.exceptions import ValidationError
 from my_web_project.main.models import Student, Teacher
 
 
-class StudentRegisterForm(forms.ModelForm):
+class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         #fields = '__all__'
         exclude = ('user',)
 
-
-class TeacherRegisterForm(forms.ModelForm):
+class TeacherForm(forms.ModelForm):
     class Meta:
         model = Teacher
-        fields = '__all__'
         exclude = ('user',)
 
-
-class UserRegisterForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = '__all__'
 
 class LoginForm(forms.Form):
     user = None

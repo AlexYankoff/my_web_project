@@ -1,32 +1,15 @@
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
-from my_web_project.authentication.forms import StudentRegisterForm, LoginForm, UserRegisterForm
+from my_web_project.authentication.forms import LoginForm,  StudentForm
+from my_web_project.main.models import Student
 
 
 def index_page(request):
     return render(request, 'index.html')
 
-
-def register_student(request):
-    if request.method == 'GET':
-        context = {
-            'form': StudentRegisterForm()
-        }
-        return render(request, 'authentication/register_student.html', context)
-    else:
-        form = StudentRegisterForm(request.POST)
-
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index_page')
-
-        context = {
-            'form'  # ako има грешки, покажи попълнената форма
-        }
-    return render(request, 'authentication/register_student.html', context)
 
 
 def register_user(request):
@@ -69,3 +52,19 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('index_page')
+
+@login_required
+def student_details(request):
+    student = Student.objects.get(pk=request.user.id)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('index_page')
+    else:
+        form = StudentForm(instance=student)
+
+    context = {
+        'form': form,
+        }
+    return render(request, 'authentication/student_details.html', context)

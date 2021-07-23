@@ -19,6 +19,6 @@ def user_created(sender, instance, created, **kwargs):
 
 
 @receiver(pre_save, sender=Student)
-def check_is_complete(sender, instance, created, **kwargs):
+def check_is_complete(sender, instance, **kwargs):
     if instance.first_name and instance.last_name and instance.school_class:
         instance.is_complete = True

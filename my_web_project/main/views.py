@@ -6,7 +6,8 @@ from my_web_project.core.decorators import group_required
 from my_web_project.main.forms import HomeworkForm, HomeworkEditForm
 from my_web_project.main.models import Homework
 
-#@login_required()
+
+# @login_required()
 def homeworks_list(request):
     homeworks = Homework.objects.all()
     context = {
@@ -16,15 +17,19 @@ def homeworks_list(request):
     return render(request, 'homework/homeworks_list.html', context)
 
 
-@group_required(['Student',])
+@group_required(['Student', ])
 def homework_create(request):
     if request.method == 'POST':
-        form = HomeworkForm(request.POST, request.FILES)
+        form = HomeworkForm(request.POST, request.FILES, )
         if form.is_valid():
             form.save()
             return redirect('homeworks_list')
     else:
-        form = HomeworkForm()
+        form = HomeworkForm(
+            initial={
+                'student': request.user.id,
+            }
+        )
 
     context = {
         'form': form,

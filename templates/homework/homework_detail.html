@@ -9,12 +9,12 @@
             </div>
             <div class="d-inline p-2 w-50">
                 <div class="d-flex justify-content-between">
-                    <h5><u>Type:</u> {{ homework.title }}</h5>
-                    <h5><u>Name:</u> {{ homework.student }}</h5>
-                    <h5><u>Age:</u> {{ homework.teacher }}</h5>
+                    <h5><u>Title:</u> {{ homework.title }}</h5>
+                    <h5><u>Student:</u> {{ homework.student }}</h5>
+                    <h5><u>Teacher:</u> {{ homework.teacher }}</h5>
                 </div>
                 <p class="mt-2">Score: {{ homework.score }}</p>
-                <p class="mt-2">Score: {{ homework.status }}</p>
+                <p class="mt-2">Status: {{ homework.status }}</p>
                 <div>
                     <a href="{% url 'homework_edit' homework.id %}" class="btn btn-success">Edit</a>
                     <a href="{% url 'homework_delete' homework.id %}" class="btn btn-danger">Delete</a>

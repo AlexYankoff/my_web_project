@@ -48,9 +48,8 @@ class Homework(models.Model):
     title = models.CharField(max_length=30)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    image = models.ImageField(
-        upload_to = 'homeworks',
-    )
+    upload = models.FileField(upload_to='homeworks/')
+
     score = models.FloatField(blank=True,null=True)
     status = models.CharField(
         max_length=10,

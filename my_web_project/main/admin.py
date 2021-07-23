@@ -15,7 +15,7 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class HomeworkAdmin(admin.ModelAdmin):
-    list_display = ['title', 'student', 'teacher','image', 'score', 'status']
+    list_display = ['title', 'student', 'teacher','upload', 'score', 'status']
     list_filter = ['teacher','student']
 
 
