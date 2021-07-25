@@ -23,16 +23,11 @@ class HomeworkForm(BootstrapFormMixin, forms.ModelForm):
 
 
 class HomeworkEditForm(HomeworkForm):
-    def save(self, commit=True):
-        db_homework = Homework.objects.get(pk=self.instance.id)
-        if commit:
-            image_path = join(settings.MEDIA_ROOT, str(db_homework.image))
-            os.remove(image_path)
-        return super().save(commit)
 
     class Meta:
         model = Homework
         fields = '__all__'
+        # ne raboti readonly?
         widgets = {
             'type': forms.TextInput(
                 attrs={

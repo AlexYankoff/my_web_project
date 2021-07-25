@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
-from my_web_project.authentication.forms import LoginForm,  StudentForm
+from my_web_project.authentication.forms import LoginForm, StudentForm, MyUserCreationForm
 from my_web_project.main.models import Student
 
 
@@ -11,17 +11,16 @@ def index_page(request):
     return render(request, 'index.html')
 
 
-
-def register_user(request):
+def register_student(request):
     if request.method == 'GET':
         context = {
-            #'form': UserRegisterForm()
-            'form': UserCreationForm(),
+            # 'form': UserRegisterForm()
+            'form': MyUserCreationForm(),
         }
-        return render(request, 'authentication/register_student.html', context)
+        return render(request, 'authentication/register_user.html', context)
     else:
-        #form = UserRegisterForm(request.POST)
-        form = UserCreationForm(request.POST) # ползваме си built-in фомра
+
+        form = MyUserCreationForm(request.POST)  # ползваме си built-in фомра
 
         if form.is_valid():
             user = form.save()
@@ -30,9 +29,37 @@ def register_user(request):
             return redirect('index_page')
 
         context = {
-            'form' : UserCreationForm(request.POST) # ako има грешки, покажи попълнената форма
+            'form': MyUserCreationForm(request.POST)  # ako има грешки, покажи попълнената форма
         }
-    return render(request, 'authentication/register_student.html', context)
+    return render(request, 'authentication/register_user.html', context)
+
+
+def register_teacher(request):
+    if request.method == 'GET':
+        context = {
+            'form': MyUserCreationForm(initial={
+                'is_staff': True,}
+            ),
+
+        }
+
+        return render(request, 'authentication/register_user.html', context)
+    else:
+
+        form = MyUserCreationForm(request.POST)  # ползваме си built-in фомра
+
+        if form.is_valid():
+
+            user = form.save()
+            user.groups.add(2)
+            login(request, user)
+            return redirect('index_page')
+
+        context = {
+            'form': MyUserCreationForm(request.POST)  # ako има грешки, покажи попълнената форма
+        }
+    return render(request, 'authentication/register_user.html', context)
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -46,12 +73,13 @@ def login_user(request):
     context = {
         'form': form,
     }
-    return render(request,'authentication/login.html', context)
+    return render(request, 'authentication/login.html', context)
 
 
 def logout_user(request):
     logout(request)
     return redirect('index_page')
+
 
 @login_required
 def student_details(request):
@@ -66,5 +94,5 @@ def student_details(request):
 
     context = {
         'form': form,
-        }
+    }
     return render(request, 'authentication/student_details.html', context)

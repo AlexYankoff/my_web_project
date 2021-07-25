@@ -1,3 +1,4 @@
+{% load profile_type %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -21,16 +22,27 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li><a class="nav-link" href="{% url 'homeworks_list' %}">All homeworks</a></li>
-            <li><a class="nav-link" href="{% url 'homework_create' %}">Add homework</a></li>
+            <li><a class="nav-link" href="{% url 'index_page' %}">Home</a></li>
+            {% if user.is_authenticated %}
+                <li><a class="nav-link" href="{% url 'homeworks_list' %}">All homeworks</a></li>
+            {% endif %}
+            {% if request.user|has_group:"Student" %}
+                <li><a class="nav-link" href="{% url 'homework_create' %}">Add homework</a></li>
+            {% endif %}
+            {% if request.user|has_group:"Teacher" %}
+                 <li><a class="nav-link" href="{% url 'homework_create' %}">Шибан учител</a></li>
+            {% endif %}
 
         </ul>
     </div>
     <div class="nav-item float-right">
         {% if user.is_authenticated %}
             <a class="nav-link" href="{% url 'logout user' %}">Hello, {{ user.username }}! Logout</a>
-            <a class="nav-link" href="{% url 'student details' %}">Your Profile</a>
-
+            {% if request.user|has_group:"Student" %}
+                <a class="nav-link" href="{% url 'student details' %}">Your Student Profile</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'student details' %}">Your Teacher Profile</a>
+            {% endif %}
         {% else %}
             <a class="nav-link" href="{% url 'login user' %}">Login</a>
 
