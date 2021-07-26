@@ -4,11 +4,11 @@
 {% block content %}
     <h1>{{ request.user }}</h1>
 
-        <form method="POST" action = {% url 'student details' %}>
+        <form method="POST" >
             {% csrf_token %}
             {{ form }}
 
-            <button>Edit Student</button>
+            <button>Save</button>
         </form>
 
 

@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
-from my_web_project.authentication.forms import LoginForm, StudentForm, MyUserCreationForm
-from my_web_project.main.models import Student
+from my_web_project.authentication.forms import LoginForm, StudentForm, MyUserCreationForm, TeacherForm
+from my_web_project.main.models import Student, Teacher
 
 
 def index_page(request):
@@ -50,7 +50,9 @@ def register_teacher(request):
 
         if form.is_valid():
 
-            user = form.save()
+            user = form.save(commit=False)
+            user.is_staff= True
+            user.save()
             user.groups.add(2)
             login(request, user)
             return redirect('index_page')
@@ -91,6 +93,23 @@ def student_details(request):
             return redirect('index_page')
     else:
         form = StudentForm(instance=student)
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'authentication/student_details.html', context)
+
+
+@login_required
+def teacher_details(request):
+    teacher = Teacher.objects.get(pk=request.user.id)
+    if request.method == 'POST':
+        form = TeacherForm(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
+            return redirect('index_page')
+    else:
+        form = TeacherForm(instance=teacher)
 
     context = {
         'form': form,

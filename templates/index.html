@@ -5,7 +5,7 @@
 
     <div class="jumbotron parent">
         <img style="width: 100%"
-             src="{% static 'images/landingBackground.webp' %}"
+             src="{% static 'images/landingBackground.jpg' %}"
              alt="">
         <div class="absolute">
             <h1 class="display-4">Welcome to Homework Diary</h1>
@@ -16,7 +16,7 @@
                 <div class="row">
                     {% if not user.is_authenticated %}
                         <div class="col-lg-6">
-                        <p class="lead">Already have an account? <br><a href="#" class="btn btn-lg btn-secondary">Login</a></p>
+                        <p class="lead">Already have an account? <br><a href="{% url 'login user' %}" class="btn btn-lg btn-secondary">Login</a></p>
                     </div>
                         <div class="col-lg-6">
                         <p class="lead"> Do not have an account? <br>

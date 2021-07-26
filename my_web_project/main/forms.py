@@ -12,7 +12,6 @@ class HomeworkForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Homework
         fields = '__all__'
-        #exclude = ('student',)
         widgets = {
             'name': forms.TextInput(
                 attrs={

@@ -4,23 +4,24 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from my_web_project.common.forms import BootstrapFormMixin
 from my_web_project.main.models import Student, Teacher
 
 
-class StudentForm(forms.ModelForm):
+class StudentForm(BootstrapFormMixin,forms.ModelForm):
     class Meta:
         model = Student
         # fields = '__all__'
-        exclude = ('user',)
+        exclude = ('user','is_complete')
 
 
-class TeacherForm(forms.ModelForm):
+class TeacherForm(BootstrapFormMixin,forms.ModelForm):
     class Meta:
         model = Teacher
-        exclude = ('user',)
+        exclude = ('user', 'is_complete')
 
 
-class LoginForm(forms.Form):
+class LoginForm(BootstrapFormMixin,forms.Form):
     user = None
     username = forms.CharField(max_length=30, )
 
@@ -28,6 +29,7 @@ class LoginForm(forms.Form):
         max_length=15,
         widget=forms.PasswordInput(),
     )
+
 
     def clean(self):
         self.user = authenticate(
@@ -42,8 +44,9 @@ class LoginForm(forms.Form):
         return self.user
 
 
-class MyUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ("username","is_staff",)
-        
+class MyUserCreationForm(BootstrapFormMixin,UserCreationForm):
+    pass
+#    class Meta:
+#        model = User
+#        fields = ("username","is_staff",)
+

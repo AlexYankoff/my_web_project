@@ -4,14 +4,15 @@
 {% block content %}
     <div class="container">
         <div class="d-flex">
-            <div class="d-inline p-2 w-50">
+            <div >
                 <img src="" class="w-50 rounded mx-auto d-block">
             </div>
-            <div class="d-inline p-2 w-50">
-                <div class="d-flex justify-content-between">
+            <div >
+                <div >
                     <h5><u>Title:</u> {{ homework.title }}</h5>
                     <h5><u>Student:</u> {{ homework.student }}</h5>
                     <h5><u>Teacher:</u> {{ homework.teacher }}</h5>
+                    <h5><u>Homework file:</u> {{ homework.upload }}</h5>
                 </div>
                 <p class="mt-2">Score: {{ homework.score }}</p>
                 <p class="mt-2">Status: {{ homework.status }}</p>

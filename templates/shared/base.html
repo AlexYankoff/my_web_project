@@ -41,7 +41,7 @@
             {% if request.user|has_group:"Student" %}
                 <a class="nav-link" href="{% url 'student details' %}">Your Student Profile</a>
             {% else %}
-                <a class="nav-link" href="{% url 'student details' %}">Your Teacher Profile</a>
+                <a class="nav-link" href="{% url 'teacher details' %}">Your Teacher Profile</a>
             {% endif %}
         {% else %}
             <a class="nav-link" href="{% url 'login user' %}">Login</a>
