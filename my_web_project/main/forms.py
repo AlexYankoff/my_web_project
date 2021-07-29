@@ -20,17 +20,26 @@ class HomeworkForm(BootstrapFormMixin, forms.ModelForm):
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['score'].disabled = True
+        self.fields['status'].disabled = True
 
 class HomeworkEditForm(HomeworkForm):
-
     class Meta:
         model = Homework
         fields = '__all__'
-        # ne raboti readonly?
-        widgets = {
-            'type': forms.TextInput(
-                attrs={
-                    'readonly': 'readonly',
-                }
-            )
-        }
+
+
+
+class HomeworkCheckForm(HomeworkForm):
+    class Meta:
+        model = Homework
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['score'].disabled = False
+        self.fields['status'].disabled = False
+
+

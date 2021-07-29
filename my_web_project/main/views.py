@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from my_web_project.common.forms import CommentForm
 from my_web_project.core.decorators import group_required
-from my_web_project.main.forms import HomeworkForm, HomeworkEditForm
+from my_web_project.main.forms import HomeworkForm, HomeworkEditForm, HomeworkCheckForm
 from my_web_project.main.models import Homework
 
 
@@ -15,6 +15,16 @@ def homeworks_list(request):
     }
 
     return render(request, 'homework/homeworks_list.html', context)
+
+
+# @login_required()
+def homeworks_my(request):
+    homeworks = Homework.objects.all()
+    context = {
+        'homeworks': homeworks,
+    }
+
+    return render(request, 'homework/homeworks_my.html', context)
 
 
 @group_required(['Student', ])
@@ -41,6 +51,9 @@ def homework_create(request):
 def homework_details(request, pk):
     homework = Homework.objects.get(pk=pk)
 
+    student_owner = homework.student_id == request.user.id
+    assigned_teacher = homework.teacher_id == request.user.id
+
     context = {
         'homework': homework,
         'comment_form': CommentForm(
@@ -49,6 +62,8 @@ def homework_details(request, pk):
             }
         ),
         'comments': homework.comment_set.all(),
+        'student_owner': student_owner,
+        'assigned_teacher': assigned_teacher,
     }
 
     return render(request, 'homework/homework_detail.html', context)
@@ -72,6 +87,24 @@ def homework_edit(request, pk):
     return render(request, 'homework/homework_edit.html', context)
 
 
+def homework_check(request, pk):
+    homework = Homework.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = HomeworkCheckForm(request.POST, request.FILES, instance=homework)
+        if form.is_valid():
+            form.save()
+            return redirect('homeworks_list')
+    else:
+        form = HomeworkCheckForm(instance=homework)
+
+    context = {
+        'form': form,
+        'homework': homework,
+    }
+
+    return render(request, 'homework/homework_check.html', context)
+
+
 def homework_delete(request, pk):
     homework = Homework.objects.get(pk=pk)
     if request.method == 'POST':
@@ -87,6 +120,8 @@ def homework_delete(request, pk):
 def homework_comment(request, pk):
     form = CommentForm(request.POST)
     if form.is_valid():
-        form.save()
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.save()
 
     return redirect('homework_details', pk)

@@ -25,13 +25,12 @@
             <li><a class="nav-link" href="{% url 'index_page' %}">Home</a></li>
             {% if user.is_authenticated %}
                 <li><a class="nav-link" href="{% url 'homeworks_list' %}">All homeworks</a></li>
+                <li><a class="nav-link" href="{% url 'homeworks_my' %}">My homeworks</a></li>
             {% endif %}
             {% if request.user|has_group:"Student" %}
                 <li><a class="nav-link" href="{% url 'homework_create' %}">Add homework</a></li>
             {% endif %}
-            {% if request.user|has_group:"Teacher" %}
-                 <li><a class="nav-link" href="{% url 'homework_create' %}">Шибан учител</a></li>
-            {% endif %}
+
 
         </ul>
     </div>

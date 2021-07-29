@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -48,8 +49,8 @@ class Teacher(models.Model):
 class Homework(models.Model):
 
     STATUS_CHOICES =(
-        ('Completed', 'Completed'),
         ('Submitted', 'Submitted'),
+        ('Checked', 'Checked'),
         ('Canceled', 'Canceled')
     )
 
@@ -59,7 +60,8 @@ class Homework(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     upload = models.FileField(upload_to='homeworks/')
 
-    score = models.FloatField(blank=True,null=True)
+    score = models.FloatField(blank=True, null=True,
+                              validators=[MinValueValidator(2.0), MaxValueValidator(6.0)])
     status = models.CharField(
         max_length=10,
         choices=STATUS_CHOICES,
@@ -70,6 +72,11 @@ class Homework(models.Model):
 class Comment(models.Model):
     comment = models.TextField()
     homework = models.ForeignKey(Homework, on_delete=models.CASCADE)
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        )
 
 
 

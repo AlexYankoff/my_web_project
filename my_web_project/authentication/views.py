@@ -14,7 +14,6 @@ def index_page(request):
 def register_student(request):
     if request.method == 'GET':
         context = {
-            # 'form': UserRegisterForm()
             'form': MyUserCreationForm(),
         }
         return render(request, 'authentication/register_user.html', context)

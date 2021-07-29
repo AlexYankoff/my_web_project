@@ -1,35 +1,42 @@
-{% extends 'shared/base.html'%}
+{% extends 'shared/base.html' %}
 
 
 {% block content %}
     <div class="container">
         <div class="d-flex">
-            <div >
+            <div>
                 <img src="" class="w-50 rounded mx-auto d-block">
             </div>
-            <div >
-                <div >
-                    <h5><u>Title:</u> {{ homework.title }}</h5>
-                    <h5><u>Student:</u> {{ homework.student }}</h5>
-                    <h5><u>Teacher:</u> {{ homework.teacher }}</h5>
-                    <h5><u>Homework file:</u> {{ homework.upload }}</h5>
-                </div>
-                <p class="mt-2">Score: {{ homework.score }}</p>
-                <p class="mt-2">Status: {{ homework.status }}</p>
+            <div>
                 <div>
-                    <a href="{% url 'homework_edit' homework.id %}" class="btn btn-success">Edit</a>
-                    <a href="{% url 'homework_delete' homework.id %}" class="btn btn-danger">Delete</a>
+                    <h5><b>Title:</b> {{ homework.title }}</h5>
+                    <h5><b>Student:</b> {{ homework.student }} (User: {{ homework.student.user }})</h5>
+                    <h5><b>Teacher:</b> {{ homework.teacher }} (User: {{ homework.teacher.user }})</h5>
+                    <h5><b>Homework file:</b> {{ homework.upload }}</h5>
+                    <h5><b>Score:</b> {{ homework.score }}</h5>
+                    <h5><b>Status:</b> {{ homework.status }}</h5>
                 </div>
 
-                <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                 <p class="mt-2">Likes: </p>
+                <div>
+                    {% if student_owner %}
+                        <a href="{% url 'homework_edit' homework.id %}" class="btn btn-success">Edit</a>
+                    {% endif %}
+                    {% if assigned_teacher %}
+                        <a href="{% url 'homework_check' homework.id %}" class="btn btn-success">Check homework</a>
+                        <a href="{% url 'homework_delete' homework.id %}" class="btn btn-danger">Delete</a>
+
+                    {% endif %}
+
+                </div>
+                <p></p>
+
             </div>
         </div>
         <div class="d-block" style="background-color: #f1e3e3; padding:2%">
             {% if comments %}
                 {% for comment in comments %}
                     <div class="box">
-                        <h5><em>{{ comment.comment }}</em></h5>
+                        <h5><em><b>{{ comment.user }}: </b> {{ comment.comment }}</em></h5>
                         <hr>
                     </div>
                 {% endfor %}

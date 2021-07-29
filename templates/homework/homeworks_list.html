@@ -13,7 +13,9 @@
                             <p class="card-text">{{ homework.status }}</p>
                             <p class="card-text">{{ homework.student }}</p>
                             <p class="card-text">{{ homework.teacher }}</p>
-                            <a href="{% url 'homework_details' homework.id %}" class="btn btn-primary">See details</a>
+                            {% if homework.student_id == request.user.id  or homework.teacher_id == request.user.id%}
+                                <a href="{% url 'homework_details' homework.id %}" class="btn btn-primary">See details</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
