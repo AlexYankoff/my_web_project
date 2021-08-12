@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.test import TestCase, Client
-from django.urls import reverse
 
-from my_web_project.main.models import Homework, Student, Teacher
+from my_web_project.main.models import Homework, Student
 
 UserModel = get_user_model()
 
