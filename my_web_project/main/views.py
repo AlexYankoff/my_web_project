@@ -7,7 +7,7 @@ from my_web_project.main.forms import HomeworkForm, HomeworkEditForm, HomeworkCh
 from my_web_project.main.models import Homework
 
 
-# @login_required()
+@login_required()
 def homeworks_list(request):
     homeworks = Homework.objects.all()
     user_id = request.user.id
