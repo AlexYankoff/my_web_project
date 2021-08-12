@@ -19,7 +19,7 @@ def homeworks_list(request):
     return render(request, 'homework/homeworks_list.html', context)
 
 
-# @login_required()
+@login_required()
 def homeworks_my(request):
     homeworks = Homework.objects.all()
     context = {
