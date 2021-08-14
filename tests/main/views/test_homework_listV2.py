@@ -36,3 +36,16 @@ class HomeworksListTests(TestCase):
             upload='homeworks/Homework-_History_1.docx'
         )
         pass
+
+    def test_ifHomeworkIsSaved(self):
+        student = Student.objects.get(pk=1)
+        Homework.objects.create(
+            title="My test homework",
+            student=student,
+            upload='homeworks/Homework-_History_1.docx'
+        )
+
+        self.client.force_login(self.user)
+        response = self.client.get('/homeworks/')
+        homeworks = list(response.context['homeworks'])
+        self.assertEqual(len(homeworks),1)
